@@ -46,7 +46,7 @@ def get_habitability(ds, file):
     # The Basics
     ocean_depth = bath.zocean.data
     areas = ds.axyp.data
-    water_availability = ds.avail_water_all.data
+    water_availability = ds.avail_water_all.data  # (gwtr - gice - theta_hygro(kg/m2))/theta_sat = (gwtr - gice - 376.21)/1699.1
     temps = ds.tsurf.data
     ice_thicknesses = ds.ZSI.data
 
