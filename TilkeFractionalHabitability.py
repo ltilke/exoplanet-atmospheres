@@ -45,14 +45,14 @@ def main():
 def get_habitability(ds, file):
     # The Basics
     ocean_depth = bath.zocean.data
-    areas = ds.axyp.data  # m^2
+    areas = ds.axyp.data
     water_availability = ds.avail_water_all.data
     temps = ds.tsurf.data
     ice_thicknesses = ds.ZSI.data
     lake_fraction = ds.lakefr.data
-    lake_mass = ds.mwl.data  # kg
+    lake_mass = ds.mwl.data
 
-    rho_water = 997  # kg/m^3
+    rho_water = 997
     continental_height = 30
     min_water_availability = 0.0
     hab_min_temp = 0.0
