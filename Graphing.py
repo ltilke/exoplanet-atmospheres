@@ -1,21 +1,106 @@
 # Lana Tilke
-# Just a Quick Graphing Tool I Threw Together
 
-import pandas as pd
 import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
 
-data = pd.read_csv("data.csv")
+plt.rc("font", family="serif")
+plt.rc("xtick", labelsize="x-small")
+plt.rc("ytick", labelsize="x-small")
 
-data.plot.scatter(x="hab_fraction_land_volume", y="hab_fraction_ocean_volume")
-plt.xlabel("hab_fraction_land_volume")
-plt.ylabel("hab_fraction_ocean_volume")
+df = pd.read_csv("data.csv")
 
-data.plot.scatter(x="hab_fraction_land_area", y="hab_fraction_ocean_area")
-plt.xlabel("hab_fraction_land_area")
-plt.ylabel("hab_fraction_ocean_area")
+sdl_ticks = np.array(df["sdl"])
+sdl_ticks = np.unique(sdl_ticks)
 
-data.plot.scatter(x="hab_fraction_area", y="hab_fraction_volume")
-plt.xlabel("hab_fraction_area")
-plt.ylabel("hab_fraction_volume")
+# Sidereal Day Length
+ax = df.plot(kind="scatter",
+             x="sdl",
+             y="avg_hab_fraction_ocean_volume",
+             color="c", marker="o", label="Ocean")
+df.plot(kind="scatter",
+        x="sdl",
+        y="avg_hab_fraction_land_volume",
+        color="y", marker="o", label="Land", ax=ax)
+df.plot(kind="scatter",
+        x="sdl",
+        y="avg_hab_fraction_volume",
+        color="m", marker=".", label="Total", ax=ax)
 
+ax.set_xscale("log")
+plt.ylim(bottom=-0.05, top=1.05)
+ax.set_xlabel("Sidereal Day Length")
+ax.set_ylabel("Habitable Fraction")
+plt.title(r"Habitable Fraction (Volume) vs. Sidereal Day Length (SDL$_\oplus$)")
+plt.xticks(ticks=sdl_ticks, labels=sdl_ticks)
+plt.minorticks_off()
+plt.legend(loc="best")
+plt.savefig("figs\\volume_sdl.png", dpi=600)
+plt.show()
+
+ax = df.plot(kind="scatter",
+             x="sdl",
+             y="avg_hab_fraction_ocean_area",
+             color="c", marker="o", label="Ocean")
+df.plot(kind="scatter",
+        x="sdl",
+        y="avg_hab_fraction_land_area",
+        color="y", marker="o", label="Land", ax=ax)
+df.plot(kind="scatter",
+        x="sdl",
+        y="avg_hab_fraction_area",
+        color="m", marker=".", label="Total", ax=ax)
+
+ax.set_xscale("log")
+plt.ylim(bottom=-0.05, top=1.05)
+ax.set_xlabel("Sidereal Day Length")
+ax.set_ylabel("Habitable Fraction")
+plt.title(r"Habitable Fraction (Area) vs. Sidereal Day Length (SDL$_\oplus$)")
+plt.xticks(ticks=sdl_ticks, labels=sdl_ticks)
+plt.minorticks_off()
+plt.legend(loc="best")
+plt.savefig("figs\\area_sdl.png", dpi=600)
+plt.show()
+
+# Insolation
+ax = df.plot(kind="scatter",
+             x="insolation",
+             y="avg_hab_fraction_ocean_volume",
+             color="c", marker="o", label="Ocean")
+df.plot(kind="scatter",
+        x="insolation",
+        y="avg_hab_fraction_land_volume",
+        color="y", marker="o", label="Land", ax=ax)
+df.plot(kind="scatter",
+        x="insolation",
+        y="avg_hab_fraction_volume",
+        color="m", marker=".", label="Total", ax=ax)
+
+plt.ylim(bottom=-0.05, top=1.05)
+ax.set_xlabel("Insolation")
+ax.set_ylabel("Habitable Fraction")
+plt.title(r"Habitable Fraction (Volume) vs. Insolation (W/m$^2$)")
+plt.legend(loc="best")
+plt.savefig("figs\\volume_insolation.png", dpi=600)
+plt.show()
+
+ax = df.plot(kind="scatter",
+             x="insolation",
+             y="avg_hab_fraction_ocean_area",
+             color="c", marker="o", label="Ocean")
+df.plot(kind="scatter",
+        x="insolation",
+        y="avg_hab_fraction_land_area",
+        color="y", marker="o", label="Land", ax=ax)
+df.plot(kind="scatter",
+        x="insolation",
+        y="avg_hab_fraction_area",
+        color="m", marker=".", label="Total", ax=ax)
+
+plt.ylim(bottom=-0.05, top=1.05)
+ax.set_xlabel("Insolation")
+ax.set_ylabel("Habitable Fraction")
+plt.title(r"Habitable Fraction (Area) vs. Insolation (W/m$^2$)")
+plt.legend(loc="best")
+plt.savefig("figs\\area_insolation.png", dpi=600)
 plt.show()

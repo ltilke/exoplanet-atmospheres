@@ -6,20 +6,23 @@ import csv
 import os
 import numpy as np
 
-# Path = Directory of NetCDF Files
-# Bath = Bathymetric NetCDF File
+# path = Directory of NetCDF Files
 path = "C:\\Users\\lanat\\Desktop\\NASA\\Climates_of_Warm_Earth_like_Planets_I\\AIJ"
-bath = xr.open_dataset("C:\\Users\\lanat\\Desktop\\NASA\\Climates_of_Warm_Earth_like_Planets_I\\"
-                       "INPUT_FILES\\Dynamic_Ocean\\OZ72X46N_gas.1_nocasp_btub005.nc")
+
+# bath = Bathymetric NetCDF File
+bath = xr.open_dataset("C:\\Users\\lanat\\Desktop\\NASA\\Climates_of_Warm_Earth_like_Planets_I\\INPUT_FILES\\Dynamic_Ocean\\OZ72X46N_gas.1_nocasp_btub005.nc")
 
 
 # Opening the NetCDF Files and Processing Them
 def main():
     num_files = len(glob.glob1(path, "*.nc"))
-    file_counter = 0
+    file_counter = 1
 
     fieldnames = [
+        "file_short",
         "file",
+        "sdl",
+        "insolation",
         "avg_hab_fraction_land_volume",
         "avg_hab_fraction_ocean_volume",
         "avg_hab_fraction_volume",
@@ -32,13 +35,21 @@ def main():
         writer = csv.DictWriter(data_csv, fieldnames=fieldnames)
         writer.writeheader()
 
-        for file in os.listdir(path):
-            if file.endswith(".nc"):
-                ds = xr.open_dataset(os.path.join(path, file))
-                metrics_dict = get_habitability(ds, file)
-                writer.writerow(metrics_dict)
-                file_counter += 1
-                print(str(file_counter) + "/" + str(num_files))
+        if os.path.isdir(path):
+            for file in os.listdir(path):
+                if file.endswith(".nc"):
+                    ds = xr.open_dataset(os.path.join(path, file))
+                    metrics_dict = get_habitability(ds, file)
+                    metrics_dict["file_short"] = "S" + str(file_counter)
+                    writer.writerow(metrics_dict)
+                    print(str(file_counter) + "/" + str(num_files))
+                    file_counter += 1
+        else:
+            file = path
+            ds = xr.open_dataset(file)
+            metrics_dict = get_habitability(ds, file)
+            metrics_dict["file_short"] = "S" + str(file_counter)
+            writer.writerow(metrics_dict)
 
 
 # Calculating the Various Fractional Habitability Metrics of a NetCDF File
@@ -48,13 +59,20 @@ def get_habitability(ds, file):
     areas = ds.axyp.data  # m^2
     ice_thicknesses = ds.ZSI.data  # m
     lake_fraction = ds.lakefr.data  # %
-    water_availability = ds.avail_water_all.data
+
+    try:
+        water_availability = ds.avail_water_all.data
+    except AttributeError:
+        water_availability = (ds.gwtr.data - ds.gice.data - 376.21)/1699.1
+
     temps = ds.tsurf.data  # C
     lake_mass = ds.mwl.data  # 10^10 kg
+    solar_radiation = ds.incsw_toa_hemis.data  # W/m^2
 
     ice_thicknesses = np.where(np.isnan(ice_thicknesses), 0.0, ice_thicknesses)
     lake_fraction = np.true_divide(lake_fraction, 100)
     lake_mass *= 10**10  # kg
+    insolation = solar_radiation[2] * 4
 
     continental_height = 30
     min_water_availability = 0.0
@@ -135,8 +153,12 @@ def get_habitability(ds, file):
     avg_hab_fraction_ocean_area = hab_ocean_area_total / ocean_area_total
     avg_hab_fraction_area = (hab_land_area_total + hab_ocean_area_total) / (land_area_total + ocean_area_total)
 
+    sdl = file[33:36].lstrip("0")
+
     return {
         "file": file,
+        "sdl": sdl,
+        "insolation": insolation,
         "avg_hab_fraction_land_volume": avg_hab_fraction_land_volume,
         "avg_hab_fraction_ocean_volume": avg_hab_fraction_ocean_volume,
         "avg_hab_fraction_volume": avg_hab_fraction_volume,
