@@ -40,7 +40,10 @@ def main():
                 if file.endswith(".nc"):
                     ds = xr.open_dataset(os.path.join(path, file))
                     metrics_dict = get_habitability(ds, file)
-                    metrics_dict["file_short"] = "S" + str(file_counter)
+                    if file_counter < 10:
+                        metrics_dict["file_short"] = "S0" + str(file_counter)
+                    else:
+                        metrics_dict["file_short"] = "S" + str(file_counter)
                     writer.writerow(metrics_dict)
                     print(str(file_counter) + "/" + str(num_files))
                     file_counter += 1
@@ -48,7 +51,10 @@ def main():
             file = path
             ds = xr.open_dataset(file)
             metrics_dict = get_habitability(ds, file)
-            metrics_dict["file_short"] = "S" + str(file_counter)
+            if file_counter < 10:
+                metrics_dict["file_short"] = "S0" + str(file_counter)
+            else:
+                metrics_dict["file_short"] = "S" + str(file_counter)
             writer.writerow(metrics_dict)
 
 

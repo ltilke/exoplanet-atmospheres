@@ -10,6 +10,16 @@ plt.rc("ytick", labelsize="x-small")
 
 df = pd.read_csv("data.csv")
 
+insolation_mask = round(df["insolation"]) == 1502
+insolation_masked = df[insolation_mask]
+insolation_masked.sort_values("insolation", inplace=True)
+insolation_other = df[~insolation_mask]
+
+sdl_mask = df["sdl"] == 64
+sdl_masked = df[sdl_mask]
+sdl_masked.sort_values("sdl", inplace=True)
+sdl_other = df[~sdl_mask]
+
 sdl_ticks = np.array(df["sdl"])
 sdl_ticks = np.unique(sdl_ticks)
 
@@ -18,14 +28,22 @@ ax = df.plot(kind="scatter",
              x="sdl",
              y="avg_hab_fraction_ocean_volume",
              color="c", marker=".", s=216.0, label="Ocean", alpha=0.5)
+
 df.plot(kind="scatter",
         x="sdl",
         y="avg_hab_fraction_land_volume",
         color="y", marker=".", s=108.0, label="Land", ax=ax, alpha=0.5)
+
 df.plot(kind="scatter",
         x="sdl",
         y="avg_hab_fraction_volume",
         color="m", marker=".", s=36.0, label="Total", ax=ax, alpha=1.0)
+
+insolation_masked.plot(kind="line",
+                       x="sdl",
+                       y="avg_hab_fraction_land_volume",
+                       color="y", marker="", label=r"Insolation = 1502 W/m$^2$ (1.1 I$_\oplus$)", ax=ax, alpha=0.5,
+                       zorder=-1)
 
 ax.set_xscale("log")
 plt.ylim(bottom=-0.05, top=1.05)
@@ -42,14 +60,22 @@ ax = df.plot(kind="scatter",
              x="sdl",
              y="avg_hab_fraction_ocean_area",
              color="c", marker=".", s=216.0, label="Ocean", alpha=0.5)
+
 df.plot(kind="scatter",
         x="sdl",
         y="avg_hab_fraction_land_area",
         color="y", marker=".", s=108.0, label="Land", ax=ax, alpha=0.5)
+
 df.plot(kind="scatter",
         x="sdl",
         y="avg_hab_fraction_area",
         color="m", marker=".", s=36.0, label="Total", ax=ax, alpha=1.0)
+
+insolation_masked.plot(kind="line",
+                       x="sdl",
+                       y="avg_hab_fraction_land_area",
+                       color="y", marker="", label=r"Insolation = 1502 W/m$^2$ (1.1 I$_\oplus$)", ax=ax, alpha=0.5,
+                       zorder=-1)
 
 ax.set_xscale("log")
 plt.ylim(bottom=-0.05, top=1.05)
@@ -67,14 +93,22 @@ ax = df.plot(kind="scatter",
              x="insolation",
              y="avg_hab_fraction_ocean_volume",
              color="c", marker=".", s=216.0, label="Ocean", alpha=0.5)
+
 df.plot(kind="scatter",
         x="insolation",
         y="avg_hab_fraction_land_volume",
         color="y", marker=".", s=108.0, label="Land", ax=ax, alpha=0.5)
+
 df.plot(kind="scatter",
         x="insolation",
         y="avg_hab_fraction_volume",
         color="m", marker=".", s=36.0, label="Total", ax=ax, alpha=1.0)
+
+sdl_masked.plot(kind="line",
+                x="insolation",
+                y="avg_hab_fraction_land_volume",
+                color="y", marker="", label=r"SDL = 64 SDL$_\oplus$", ax=ax, alpha=0.5,
+                zorder=-1)
 
 plt.ylim(bottom=-0.05, top=1.05)
 ax.set_xlabel(r"Insolation (W/m$^2$)")
@@ -88,14 +122,22 @@ ax = df.plot(kind="scatter",
              x="insolation",
              y="avg_hab_fraction_ocean_area",
              color="c", marker=".", s=216.0, label="Ocean", alpha=0.5)
+
 df.plot(kind="scatter",
         x="insolation",
         y="avg_hab_fraction_land_area",
         color="y", marker=".", s=108.0, label="Land", ax=ax, alpha=0.5)
+
 df.plot(kind="scatter",
         x="insolation",
         y="avg_hab_fraction_area",
         color="m", marker=".", s=36.0, label="Total", ax=ax, alpha=1.0)
+
+sdl_masked.plot(kind="line",
+                x="insolation",
+                y="avg_hab_fraction_land_area",
+                color="y", marker="", label=r"SDL = 64 SDL$_\oplus$", ax=ax, alpha=0.5,
+                zorder=-1)
 
 plt.ylim(bottom=-0.05, top=1.05)
 ax.set_xlabel(r"Insolation (W/m$^2$)")
