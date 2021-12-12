@@ -1,0 +1,9 @@
+1. Azua-Bustos, A., González-Silva, C., and Corsini, G. 2017. The Hyperarid Core of the Atacama Desert, an Extremely Dry and Carbon Deprived Habitat of Potential Interest for the Field of Carbon Science. Frontiers in Microbiology, 8, p.993.
+
+2. Anthony D. Del Genio, M. J. Way, Nancy Y. Kiang, Igor Aleinov, Michael J. Puma, and Benjamin Cook 2019. Climates of Warm Earth-like Planets. III. Fractional Habitability from a Water Cycle Perspective. The Astrophysical Journal, 887(2), p.197.
+ 
+3. McKay, C. 2014. Requirements and limits for life in the context of exoplanets. Proceedings of the National Academy of Sciences, 111(35), p.12628–12633.
+ 4. Sparrman, V. (2020). Estimates of Fractional Habitability for Proxima Centauri b using a 3D GCM (Dissertation). Retrieved from http://urn.kb.se/resolve?urn=urn:nbn:se:uu:diva-415703
+
+5. M. J. Way, Anthony D. Del Genio, Igor Aleinov, Thomas L. Clune, Maxwell Kelley, & Nancy Y. Kiang (2018). Climates of Warm Earth-like Planets. I. 3D Model Simulations. The Astrophysical Journal Supplement Series, 239(2), 24.
+ 6. Mary Beth Wilhelm, Alfonso F. Davila, Mary N. Parenteau, Linda L. Jahnke, Mastewal Abate, George Cooper, Erin Taylor Kelly, Victor Parro García, Miriam G. Villadangos, Yolanda Blanco, Brian Glass, James J. Wray, Jennifer L. Eigenbrode, Roger E. Summons, & Kimberly Warren-Rhodes (2018). Constraints on the Metabolic Activity of Microorganisms in Atacama Surface Soils Inferred from Refractory Biomarkers: Implications for Martian Habitability and Biomarker Detection. Astrobiology, 18(7), 955–966.
